@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Номер:</strong>
+  <%= @train.number %>
+</p>
+<p>
+  <strong>На станции: </strong>
+  <% if @train.current_station.present? %>
+    <%= @train.current_station.title %>
+  <% else %>
+    Не указана
+  <% end %>
+</p>
+<p>
+  <strong>Маршрут: </strong>
+  <% if @train.route.present? %>
+    <%= @train.route.name %>
+  <% else %>
+    Маршрут не назначен
+  <% end %>
+</p>
+<p>
+  <strong>Вагоны прикрепленные к поезду: </strong>
+  <% if @train.wagons.present? %>
+    <% @train.wagons.each do |wagon| %>
+      <%= wagon.number %> |
+    <% end %>
+    Всего: <%= @train.wagons.count %> wagon
+  <% else %>
+    У поезда нет вагонов
+  <% end %>
+</p>
+
+<div>
+  <strong>Количество плацкартных вагонов</strong>
+  <%= @train.wagons.where(type_wagon: 'Плацкард').count %>
+
+  <p>
+    Нижние: <%= @train.wagons.where(type_wagon: 'Плацкард').sum(:cnt_bottom_place) %>
+  </p>
+  <p>
+    Верхние: <%= @train.wagons.where(type_wagon: 'Плацкард').sum(:cnt_top_place) %>
+  </p>
+</div>
+
+<div>
+  <strong>Количество купейных вагонов</strong>
+  <%= @train.wagons.where(type_wagon: 'Купе').count %>
+
+  <p>
+    Нижние: <%= @train.wagons.where(type_wagon: 'Купе').sum(:cnt_bottom_place) %>
+  </p>
+  <p>
+    Верхние: <%= @train.wagons.where(type_wagon: 'Купе').sum(:cnt_top_place) %>
+  </p>
+</div>
+
+<%= link_to 'Редактировать', edit_train_path(@train) %> |
+<%= link_to 'Назад', trains_path %>

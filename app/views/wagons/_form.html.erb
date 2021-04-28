@@ -1,0 +1,28 @@
+<%= form_with(model: wagon) do |form| %>
+  <%= render 'common/errors', resource: @wagon %>
+  <div class="field">
+    <%= form.label 'Номер вагона' %>
+    <%= form.text_field :number %>
+  </div>
+  <div class="field">
+    <%= form.label 'Тип вагона' %>
+    <%= form.select :type_wagon, ['Плацкард', 'Купе'] %>
+  </div>
+  <div class="field">
+    <%= form.label 'Поезд' %>
+    <%= form.collection_select :train_id, Train.all, :id, :number %>
+  </div>
+
+  <div class="field">
+    <%= form.label 'Количество верхних мест' %>
+    <%= form.number_field :cnt_top_place %>
+  </div>
+  <div class="field">
+    <%= form.label 'Количество нижних мест' %>
+    <%= form.number_field :cnt_bottom_place %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "#{ wagon.new_record? ? 'Создать' : 'Изменить' }" %>
+  </div>
+<% end %>
